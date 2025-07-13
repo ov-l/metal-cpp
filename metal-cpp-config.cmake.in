@@ -1,23 +1,9 @@
 # -------- metal-cpp-config.cmake.in ----------------------------------
 @PACKAGE_INIT@
 
-# 1. Public include directory
-set_and_check(METAL_CPP_INCLUDE_DIR "@PACKAGE_INCLUDE_INSTALL_DIR@")
-
 # 2. Import the exported targets created by install(EXPORT metal-cpp-targets …)
 include("${CMAKE_CURRENT_LIST_DIR}/metal-cpp-targets.cmake")
 
 # 3. Convenience variables
 set(METAL_CPP_FOUND     TRUE)
 set(METAL_CPP_VERSION   "@PACKAGE_VERSION@")
-
-# 4. Optional compatibility alias:
-#    Users can link with either `metal::metal-cpp` (preferred) **or** `metal-cpp`.
-if(NOT TARGET metal-cpp AND TARGET metal::metal-cpp)
-    add_library(metal-cpp INTERFACE IMPORTED)
-    set_target_properties(metal-cpp PROPERTIES
-        INTERFACE_LINK_LIBRARIES        metal::metal-cpp
-        INTERFACE_INCLUDE_DIRECTORIES   "${METAL_CPP_INCLUDE_DIR}"
-    )
-endif()
-# ---------------------------------------------------------------------
