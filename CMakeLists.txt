@@ -5,6 +5,15 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_library(metal-cpp INTERFACE)
 
+# Link Metal and related frameworks on Apple platforms
+if(APPLE)
+  target_link_libraries(metal-cpp INTERFACE
+    "$<LINK_LIBRARY:FRAMEWORK,Metal>"
+    "$<LINK_LIBRARY:FRAMEWORK,QuartzCore>"
+    "$<LINK_LIBRARY:FRAMEWORK,Foundation>"
+  )
+endif()
+
 include(GNUInstallDirs)
 target_include_directories(metal-cpp INTERFACE
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
